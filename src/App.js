@@ -10,7 +10,7 @@ import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button/Button';
 // import PixabayApiService from './services/pixabay-api';
 
-const BASE_URL = 'https://pixabay.com/api/?';
+const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '24448701-489f6770e4002eca234b0d01a';
 
 export default class App extends Component {
@@ -57,7 +57,9 @@ export default class App extends Component {
                status: 'resolved',
             }));
          } else {
-            return Promise.reject(new Error(this.props.searchQuery));
+            return Promise.reject(
+               new Error(`No matches found for ${this.props.searchQuery}`),
+            );
          }
       } catch (error) {
          this.setState({ error, status: 'rejected' });
