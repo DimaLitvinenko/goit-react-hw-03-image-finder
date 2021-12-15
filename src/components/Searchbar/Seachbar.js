@@ -1,8 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { FaSearchengin } from 'react-icons/fa';
-// import { ImSearch } from 'react-icons/im';
+import { ImSearch } from 'react-icons/im';
 import style from './Searchbar.module.scss';
 
 export default class Searchbar extends Component {
@@ -27,12 +26,7 @@ export default class Searchbar extends Component {
       return (
          <header className={style.searchHeader}>
             <form onSubmit={this.handleSubmit} className={style.searchForm}>
-               <button type="submit" className={style.searchForm__button}>
-                  <span className={style.searchForm__button_label}>Search</span>
-                  <FaSearchengin />
-               </button>
-
-               <input
+               {/* <input
                   className={style.searchForm__input}
                   type="text"
                   autoComplete="off"
@@ -40,7 +34,25 @@ export default class Searchbar extends Component {
                   placeholder="Search images and photos"
                   value={this.state.searchQuery}
                   onChange={this.handleSearchQueryChange}
+               /> */}
+               <input
+                  className={style.form__input}
+                  id="input"
+                  type="text"
+                  autoComplete="off"
+                  autoFocus
+                  value={this.state.searchQuery}
+                  onChange={this.handleSearchQueryChange}
+                  placeholder=" "
                />
+               <div className={style.cut}></div>
+               <label className={style.placeholder} htmlFor="input">
+                  Enter your search image name
+               </label>
+               <button type="submit" className={style.searchForm__button}>
+                  <span className={style.searchForm__button_label}>Search</span>
+                  <ImSearch />
+               </button>
             </form>
          </header>
       );

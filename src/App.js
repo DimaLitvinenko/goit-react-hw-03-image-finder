@@ -122,6 +122,7 @@ export default class App extends Component {
                      onOpenModal={this.toggleModal}
                   />
                   <Loader
+                     position="center"
                      type="MutatingDots"
                      color="#00FF55"
                      secondaryColor="#FF9900"
