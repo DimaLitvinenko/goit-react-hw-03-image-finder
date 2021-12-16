@@ -1,4 +1,4 @@
-import './App.scss';
+import style from './App.module.scss';
 import { Component } from 'react';
 import { animateScroll as scroll } from 'react-scroll';
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,7 +8,6 @@ import Modal from './components/Modal/Modal';
 import Searchbar from './components/Searchbar/Seachbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button/Button';
-// import PixabayApiService from './services/pixabay-api';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '24448701-489f6770e4002eca234b0d01a';
@@ -100,7 +99,7 @@ export default class App extends Component {
       const { images, error, status, currentImage } = this.state;
 
       return (
-         <div className="App">
+         <div className={style.app}>
             <Searchbar onSubmit={this.handleSearchbarFormSubmit} />
 
             {status === 'rejected' && <h1>{error.message}</h1>}
@@ -122,7 +121,7 @@ export default class App extends Component {
                      onOpenModal={this.toggleModal}
                   />
                   <Loader
-                     position="center"
+                     className={style.app__loader}
                      type="MutatingDots"
                      color="#00FF55"
                      secondaryColor="#FF9900"
@@ -135,6 +134,7 @@ export default class App extends Component {
             {this.state.showModal && (
                <Modal onClose={this.toggleModal}>
                   <img
+                     className={style.modal__img}
                      src={currentImage.largeImageURL}
                      alt={currentImage.tags}
                   />

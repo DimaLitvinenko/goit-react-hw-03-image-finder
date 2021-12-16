@@ -1,0 +1,16 @@
+.app {
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-gap: 16px;
+   padding-bottom: 40px;
+}
+
+.app__loader {
+   text-align: center;
+   margin-right: auto;
+   margin-left: auto;
+}
+
+.modal__img {
+   border-radius: 15px;
+}

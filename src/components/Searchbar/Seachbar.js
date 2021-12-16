@@ -25,18 +25,16 @@ export default class Searchbar extends Component {
    render() {
       return (
          <header className={style.searchHeader}>
+            <a className={style.pixabay__logo_link} href="https://pixabay.com/">
+               <img
+                  className={style.pixabay__logo_img}
+                  src="https://pixabay.com/static/img/public/medium_rectangle_a.png"
+                  alt="Pixabay"
+               />
+            </a>
             <form onSubmit={this.handleSubmit} className={style.searchForm}>
-               {/* <input
-                  className={style.searchForm__input}
-                  type="text"
-                  autoComplete="off"
-                  autoFocus
-                  placeholder="Search images and photos"
-                  value={this.state.searchQuery}
-                  onChange={this.handleSearchQueryChange}
-               /> */}
                <input
-                  className={style.form__input}
+                  className={style.searchForm__input}
                   id="input"
                   type="text"
                   autoComplete="off"
