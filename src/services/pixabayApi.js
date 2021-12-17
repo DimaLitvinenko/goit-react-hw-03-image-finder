@@ -1,6 +1,5 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
-// import ApiUrlRefs from './apiUrlRefs';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '24448701-489f6770e4002eca234b0d01a';
@@ -19,6 +18,7 @@ export default async function fetchImages(searchQuery, page) {
       return response.data.hits;
    });
 }
+
 fetchImages.propTypes = {
    searchQuery: PropTypes.string,
    page: PropTypes.number,

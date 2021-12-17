@@ -16,6 +16,7 @@
    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.5),
       0px 4px 5px 0px rgba(0, 0, 0, 0.16), 0px 1px 10px 0px rgba(0, 0, 0, 0.19);
 }
+
 // ================== PIXABEY_LOGO-LINK ======================
 .pixabay__logo_link {
    padding: 0;
@@ -32,9 +33,14 @@
    &:focus {
       transform: scale(1.5);
       opacity: 1;
-      animation: pixabay__logo_link-spin 0s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0px 2px 4px 2px #f42f03, 0px 3px 5px 4px #0363f4,
-         0px 3px 6px 5px #f42f03;
+      animation: pixabay__logo_link-spin 0s linear;
+      // box-shadow: 0px 2px 4px 2px #f42f03, 0px 3px 5px 4px #0363f4,
+      //    0px 3px 6px 8px #f42f03;
+      -webkit-box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px,
+         #ff8000 0 -10px 20px, red 0 -18px 40px,
+         5px 5px 15px 5px rgba(0, 0, 0, 0);
+      box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px,
+         red 0 -18px 40px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
    }
 }
 
@@ -56,6 +62,7 @@
       transform: rotateY(360deg);
    }
 }
+
 // =================== SEARCH_FORM ========================
 .searchForm {
    box-sizing: border-box;
@@ -69,8 +76,11 @@
    background-color: #fff;
    overflow: hidden;
    z-index: 10;
-   box-shadow: 0px 9px 10px 0.8px #2670df, 1px 15px 20px 0.8px #ff3204;
    border-radius: 5px;
+   -webkit-box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px,
+      red 0 -18px 40px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+   box-shadow: #fff 0 -1px 4px, #ff0 0 -2px 10px, #ff8000 0 -10px 20px,
+      red 0 -18px 40px, 5px 5px 15px 5px rgba(0, 0, 0, 0);
 }
 
 // =================== SEARCH_INPUT =======================
@@ -85,7 +95,6 @@
    border: 0;
    outline: 0;
    opacity: 0.8;
-
    transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1),
       background-color 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -100,6 +109,8 @@
    position: absolute;
    top: 50%;
    left: 50%;
+   max-width: 100%;
+   height: auto;
    pointer-events: none;
    color: #f47703;
    z-index: 1200;
@@ -138,7 +149,6 @@
    letter-spacing: 3px;
    z-index: 11;
    transform: scale(1);
-
    transition: color 340ms cubic-bezier(0.4, 0, 0.2, 1),
       background-color 350ms cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 350ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -158,6 +168,7 @@
          0px 5px 25px #f42f03, 2px 5px 30px #f42f03;
    }
 }
+
 .searchForm__button_label {
    position: absolute;
    width: 1px;
@@ -168,7 +179,4 @@
    white-space: nowrap;
    clip-path: inset(50%);
    border: 0;
-}
-.opacity {
-   opacity: 0.4;
 }

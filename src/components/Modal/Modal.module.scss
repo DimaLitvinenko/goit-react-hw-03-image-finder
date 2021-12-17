@@ -24,6 +24,7 @@
       height: 100%;
       width: 100%;
       margin: 0 auto;
+      border-radius: 15px;
       transform: scale($size);
       -webkit-filter: blur($spread);
       -moz-filter: blur($spread);
@@ -55,6 +56,7 @@
    text-align: center;
    color: #252b37;
    background-color: #151823;
+   border-radius: 15px;
    z-index: 1200;
    animation: textColor 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
    @include backlight(0, 0, 7vw, 0.93, #f42f03, #0363f4, 2s);
@@ -70,4 +72,7 @@
          color: #ff3b0f;
       }
    }
+}
+.modal > img {
+   border-radius: 18px;
 }

@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { ImSearch } from 'react-icons/im';
 import style from './Searchbar.module.scss';
-// import {
-//    scrollToBottom,
-//    scrollToTop,
-// } from 'react-scroll/modules/mixins/animate-scroll';
 
 export default class Searchbar extends Component {
    static propTypes = { searchQuery: PropTypes.string };
@@ -23,15 +19,7 @@ export default class Searchbar extends Component {
       if (this.state.searchQuery.trim() !== '') {
          this.props.onSubmit(this.state.searchQuery);
          this.setState({ searchQuery: '' });
-      }
-      // else if (scrollToBottom < 100) {
-      //    <header className={(style.searchHeader, style.opacity)}></header>;
-      //    // header.style.opacity = '0.5';
-      // } else if (scrollToTop > 100) {
-      //    <header className={style.searchHeader}></header>;
-      //    // header.style.opacity = '1';
-      // }
-      else
+      } else
          toast.error(`The input field must not be empty! 🦄`, {
             position: 'top-left',
             autoClose: 4000,
@@ -45,7 +33,7 @@ export default class Searchbar extends Component {
 
    render() {
       return (
-         <header className={style.searchHeader}>
+         <header id="header" className={style.searchHeader}>
             <a className={style.pixabay__logo_link} href="https://pixabay.com/">
                <img
                   className={style.pixabay__logo_img}
@@ -73,11 +61,7 @@ export default class Searchbar extends Component {
                   <ImSearch />
                </button>
             </form>
-            <a
-               className={style.pixabay__logo_link}
-               // className={style.logo_link__seccond}
-               href="https://pixabay.com/"
-            >
+            <a className={style.pixabay__logo_link} href="https://pixabay.com/">
                <img
                   className={style.pixabay__logo_img}
                   src="https://pixabay.com/static/img/public/medium_rectangle_a.png"
