@@ -432,3 +432,67 @@ This section has moved here:
 
 This section has moved here:
 [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+<!-- =======================================================
+componentDidUpdate(prevProps, prevState) {
+      if (prevState.searchQuery !== this.state.searchQuery) {
+         this.setState({ status: 'pending', page: 1, images: [] });
+         this.fetchImages();
+         scroll.scrollToBottom({ smooth: true });
+      }
+
+      if (prevState.page !== this.state.page) {
+         this.setState({ status: 'pending' });
+         this.fetchImages();
+         scroll.scrollToBottom({ smooth: true });
+      }
+   }
+
+   fetchImages = async () => {
+   const searchParams = new URLSearchParams({
+      image_type: 'photo',
+      orientation: 'horizontal',
+      q: this.state.searchQuery,
+      page: this.state.page,
+      per_page: 12,
+      key: API_KEY,
+   });
+      try {
+         const response = await fetch(`${BASE_URL}?${searchParams}`);
+         if (response.ok) {
+            const articles = await response.json();
+            this.setState(prevState => ({
+               images: [...prevState.images, ...articles.hits],
+               status: 'resolved',
+            }));
+         } else {
+            return Promise.reject(
+               new Error(`No matches found for ${this.props.searchQuery}`),
+            );
+         }
+      } catch (error) {
+         this.setState({ error, status: 'rejected' });
+         toast.error(`The input field must not be empty! 🦄`, {
+            position: 'top-left',
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+         });
+      }
+   };
+
+   ================================================ -->
+
+<!-- =================================
+import { Events, animateScroll as scroll } from 'react-scroll';
+const Events = Scroll.Events;
+
+Events.scrollEvent.register('begin', function(to, element) {
+console.log('begin', to, element); }); end - end of the scrolling/animation
+
+Events.scrollEvent.register('end', function(to, element) { console.log('end',
+to, element); });
+====================================== -->

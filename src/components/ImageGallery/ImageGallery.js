@@ -12,6 +12,7 @@ export default function ImageGallery({ images, onOpenModal }) {
                className={style.imageGalleryItem}
             >
                <img
+                  max-height={260}
                   className={style.imageGalleryItem__image}
                   src={image.webformatURL}
                   alt={image.tags}
@@ -21,7 +22,3 @@ export default function ImageGallery({ images, onOpenModal }) {
       </ul>
    );
 }
-
-// export default function ImageGallery({ children }) {
-//    return <ul className={style.imageGallery}>{children}</ul>;
-// }

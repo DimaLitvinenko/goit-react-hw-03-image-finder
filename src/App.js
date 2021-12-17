@@ -8,11 +8,10 @@ import Modal from './components/Modal/Modal';
 import Searchbar from './components/Searchbar/Seachbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Button from './components/Button/Button';
-
-const BASE_URL = 'https://pixabay.com/api/';
-const API_KEY = '24448701-489f6770e4002eca234b0d01a';
+import PixabayServiceApi from './services/pixabayApi';
 
 export default class App extends Component {
+   static propTypes = {};
    state = {
       searchQuery: '',
       showModal: false,
@@ -24,55 +23,39 @@ export default class App extends Component {
    };
 
    componentDidUpdate(prevProps, prevState) {
-      if (prevState.searchQuery !== this.state.searchQuery) {
-         this.setState({ status: 'pending', page: 1, images: [] });
-         this.fetchImages();
-         scroll.scrollToBottom({ smooth: true });
+      const { searchQuery, page } = this.state;
+
+      if (prevState.searchQuery !== searchQuery) {
+         this.setState({ status: 'pending', page: 1 });
+
+         PixabayServiceApi(searchQuery)
+            .then(articles =>
+               this.setState({
+                  images: articles,
+                  status: 'resolved',
+               }),
+            )
+            .catch(error => this.setState({ error, status: 'rejected' }));
+         scroll.scrollToBottom();
       }
 
-      if (prevState.page !== this.state.page) {
+      if (prevState.page !== page) {
          this.setState({ status: 'pending' });
-         this.fetchImages();
-         scroll.scrollToBottom({ smooth: true });
+
+         PixabayServiceApi(searchQuery, page)
+            .then(articles =>
+               this.setState(prevState => ({
+                  images: [...prevState.images, ...articles],
+                  status: 'resolved',
+               })),
+            )
+            .catch(error => {
+               this.setState({ error, status: 'rejected' });
+               toast.error(`No matches for: ${searchQuery} - not found 🦄`);
+            });
+         scroll.scrollToBottom();
       }
    }
-
-   fetchImages = async () => {
-      const searchParams = new URLSearchParams({
-         image_type: 'photo',
-         orientation: 'horizontal',
-         q: this.state.searchQuery,
-         page: this.state.page,
-         per_page: 12,
-         key: API_KEY,
-      });
-
-      try {
-         const response = await fetch(`${BASE_URL}?${searchParams}`);
-         if (response.ok) {
-            const articles = await response.json();
-            this.setState(prevState => ({
-               images: [...prevState.images, ...articles.hits],
-               status: 'resolved',
-            }));
-         } else {
-            return Promise.reject(
-               new Error(`No matches found for ${this.props.searchQuery}`),
-            );
-         }
-      } catch (error) {
-         this.setState({ error, status: 'rejected' });
-         toast.error(`The input field must not be empty! 🦄`, {
-            position: 'top-left',
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-         });
-      }
-   };
 
    toggleModal = event => {
       this.setState(({ showModal }) => ({
@@ -92,15 +75,101 @@ export default class App extends Component {
    };
 
    scrollToBottom = () => {
-      scroll.scrollToBottom();
+      scroll.scrollToBottom({
+         spy: true,
+         hashSpy: true,
+         offset: 50,
+         duration: 500,
+         delay: 1000,
+         isDynamic: true,
+         onSetActive: this.handleSetActive,
+         onSetInactive: this.handleSetInactive,
+         ignoreCancelEvents: false,
+         spyThrottle: 500,
+         smooth: true,
+      });
    };
 
    render() {
-      const { images, error, status, currentImage } = this.state;
+      const { images, error, status, currentImage, searchQuery } = this.state;
+
+      // return (
+      //    <div className={style.app}>
+      //       <Searchbar onSubmit={this.handleSearchbarFormSubmit} />
+      //       {status === 'idle' && <div>Free images</div>}
+      //       {status === 'rejected' && <h1>{error.message}</h1>}
+      //       {status === 'resolved' && (
+      //          <>
+      //             <ImageGallery
+      //                images={images}
+      //                onOpenModal={this.toggleModal}
+      //             />
+      //             {images.length !== 0 && (
+      //                <Button onLoadMore={this.incrementPage} />
+      //             )}
+      //             {images.length === 0 && (
+      //                <div>No matches for: {searchQuery} - not found 🦄</div>
+      //             )}
+      //             <Button onLoadMore={this.incrementPage} />
+      //          </>
+      //       )}
+
+      //       {status === 'pending' && (
+      //          <>
+      //             <ImageGallery
+      //                images={images}
+      //                onOpenModal={this.toggleModal}
+      //             />
+      //             <Loader
+      //                className={style.app__loader}
+      //                type="MutatingDots"
+      //                color="#00FF55"
+      //                secondaryColor="#FF9900"
+      //                height={80}
+      //                width={80}
+      //             />
+      //          </>
+      //       )}
+
+      //       {this.state.showModal && (
+      //          <Modal onClose={this.toggleModal}>
+      //             <img
+      //                src={currentImage.largeImageURL}
+      //                alt={currentImage.tags}
+      //             />
+      //             <h2>{currentImage.user}</h2>
+      //             <p>
+      //                {currentImage.tags} - {currentImage.user_id}
+      //             </p>
+      //          </Modal>
+      //       )}
+
+      //       <ToastContainer
+      //          position="top-left"
+      //          autoClose={3000}
+      //          newestOnTop={true}
+      //          closeOnClick
+      //          pauseOnFocusLoss
+      //          pauseOnHover
+      //       />
+      //    </div>
+      // );
+
+      //  ============================
+      //  const { images, error, status, currImg, searchQuery } = this.state;
 
       return (
          <div className={style.app}>
             <Searchbar onSubmit={this.handleSearchbarFormSubmit} />
+            {status === 'idle' && (
+               <h1 className={style.app__title}>
+                  Best photos still{' '}
+                  <span className={style.title__after}>waiting for you</span>
+                  <span className={style.title__dot_one}>.</span>
+                  <span className={style.title__dot_two}>.</span>
+                  <span className={style.title__dot_last}>.</span>
+               </h1>
+            )}
 
             {status === 'rejected' && <h1>{error.message}</h1>}
 
@@ -110,7 +179,12 @@ export default class App extends Component {
                      images={images}
                      onOpenModal={this.toggleModal}
                   />
-                  <Button onLoadMore={this.incrementPage} />
+                  {images.length !== 0 && (
+                     <Button onLoadMore={this.incrementPage} />
+                  )}
+                  {images.length === 0 && (
+                     <div>No matches for: {searchQuery} - not found</div>
+                  )}
                </>
             )}
 
@@ -134,16 +208,14 @@ export default class App extends Component {
             {this.state.showModal && (
                <Modal onClose={this.toggleModal}>
                   <img
-                     className={style.modal__img}
                      src={currentImage.largeImageURL}
                      alt={currentImage.tags}
                   />
                </Modal>
             )}
-
             <ToastContainer
                position="top-left"
-               autoClose={4000}
+               autoClose={3000}
                newestOnTop={true}
                closeOnClick
                pauseOnFocusLoss
@@ -153,26 +225,3 @@ export default class App extends Component {
       );
    }
 }
-// =================================
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
